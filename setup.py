@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='Motebus',
-      version='0.1',
+      version='0.2',
       description='peer to peer communication protocol',
       url='https://github.com/motebus/python-motebus',
       author='YPCloud',
