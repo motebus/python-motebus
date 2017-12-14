@@ -27,8 +27,9 @@ def python_rpc(function,method,param,channel_ID,Prio,timeout1,timeout2):
 def send(func,method,param,prio,timeout1,timeout2):
     global cnt
     global my_threads
+    object_string = json.dumps(param[0])
     cnt=cnt+1
-    thread1 = threading.Thread(target = python_rpc ,args=(func,method,param,cnt,prio,timeout1,timeout2))
+    thread1 = threading.Thread(target = python_rpc ,args=(func,method,[object_string],cnt,prio,timeout1,timeout2))
     my_threads.append(thread1)
     thread1.start()
 
