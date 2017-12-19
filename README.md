@@ -28,6 +28,9 @@ It will return a list which the result is stored in the order of the request sen
 If none of the request has finished yet, Interger -1 will be returned.
 
 
-
-
-
+usage example:
+    
+    foo = {"A":"12","B":"25"}
+    motebus_rpc.send("mote@127.0.0.1","add",[foo],10,8,15)
+    time.sleep(5)
+    ret = motebus.response()
