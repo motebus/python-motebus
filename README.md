@@ -32,6 +32,6 @@ usage example:
 
     import Motebus as motebus
     foo = {"A":"12","B":"25"}
-    motebus.send("mote@127.0.0.1","add",[foo],10,8,15)
+    motebus.send("mote@ypcloud.com","add",[foo],10,8,15)
     time.sleep(5)
     ret = motebus.response()
