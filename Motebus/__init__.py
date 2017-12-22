@@ -13,10 +13,10 @@ def python_rpc(function,method,param,channel_ID,Prio,timeout1,timeout2):
 	packet = json.dumps({"jsonrpc":"2.0","method":"XRPC.SendCall","params":[function,{"method":method,"params":param},Prio,timeout1,timeout2],"id":channel_ID},separators=(',', ':'),sort_keys=True)
 	packet = packet+chr(10)
 	global ret
+	buffer =""
 	s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 	s.connect((HOST,PORT))
 	s.sendall(packet.encode('UTF-8'))
-	buffer =""
 	while(1):
 		data = s.recv(1024)
 		if not data:
