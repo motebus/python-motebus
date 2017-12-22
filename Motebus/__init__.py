@@ -7,23 +7,29 @@ my_threads=[]
 cnt=0
     
 def python_rpc(function,method,param,channel_ID,Prio,timeout1,timeout2):
-    print( '[INFO] Thread'+str(channel_ID)+' '+function+' start',time.strftime('%H:%M:%S'))
-    HOST = '127.0.0.1'
-    PORT = 6060
-    packet = json.dumps({"jsonrpc":"2.0","method":"XRPC.SendCall","params":[function,{"method":method,"params":param},Prio,timeout1,timeout2],"id":channel_ID},separators=(',', ':'),sort_keys=True)
-    packet = packet+chr(10)
-    global ret
-    s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-    s.connect((HOST,PORT))
-    s.sendall(packet)
-    data = s.recv(1024)
-    ret.insert(channel_ID -1,[data,function,channel_ID])
-
-    time.sleep(5)
-    s.close()
-    flag = 0
-    print '[INFO] Thread'+str(channel_ID)+' end',time.strftime('%H:%M:%S')
-
+	print('[INFO] Thread'+str(channel_ID)+' '+function+' '+method+' start',time.strftime('%H:%M:%S'))
+	HOST = '127.0.0.1'
+	PORT = 6060
+	packet = json.dumps({"jsonrpc":"2.0","method":"XRPC.SendCall","params":[function,{"method":method,"params":param},Prio,timeout1,timeout2],"id":channel_ID},separators=(',', ':'),sort_keys=True)
+	packet = packet+chr(10)
+	global ret
+	s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+	s.connect((HOST,PORT))
+	s.sendall(packet.encode('UTF-8'))
+	buffer =""
+	while(1):
+		data = s.recv(1024)
+		if not data:
+			break
+		buffer = buffer +data.decode('UTF-8')
+		if buffer[-1] == '\n':
+			break
+        
+	ret.insert(channel_ID -1,[buffer,function,channel_ID])
+	s.close()
+	flag = 0
+	print('[INFO] Thread'+str(channel_ID)+' end',time.strftime('%H:%M:%S'))
+	
 def send(func,method,param,prio,timeout1,timeout2):
     global cnt
     global my_threads
